@@ -21,7 +21,7 @@ import java.util.List;
  * @Creator Misoryan
  * @Date 2021/4/26 18:39
  */
-@AutoRegister
+
 public class TacticalRetreatKillStreak extends AbstractPerk implements Listener {
     @Override
     public String getInternalPerkName() {

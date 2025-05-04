@@ -77,7 +77,7 @@ public class CombatListener implements Listener {
     private final Random random = new Random();
     private final DecimalFormat numFormat = new DecimalFormat("0.00");
     private final DecimalFormat intFormat = new DecimalFormat("0");
-    public static double eventBoost = ThePit.getInstance().getPitConfig().getBooster(); //1.0 to close
+    public static double eventBoost = ThePit.getInstance().getPitConfig().getBooster();; //1.0 to close
     String boostString = " &6(限时加成x" + eventBoost + "倍奖励)";
 
     public CombatListener() {

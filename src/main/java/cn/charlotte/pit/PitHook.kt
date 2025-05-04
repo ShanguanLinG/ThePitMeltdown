@@ -615,17 +615,7 @@ object PitHook {
             ToTheMoonMegaStreak::class.java,
             SuperStreaker::class.java
         )
-        val perkClasses: List<Class<*>> = PerkConstructor.getPerks()
-        val perkCollection: List<Class<out AbstractPerk>> =
-            perkClasses.filterIsInstance<Class<out AbstractPerk>>()
-
-        if (perkCollection.isNotEmpty()) {
-            println("加载额外增益中...")
-            classes.addAll(perkCollection)
-        }
-
         perkFactory.init(classes)
-        perkInt = perkFactory.perkMap.size;
         AsyncCatcher.enabled = false
     }
 
@@ -698,49 +688,6 @@ object PitHook {
     }
 
     private fun registerListeners() {
-//        val classes = mutableListOf<Class<*>>(
-//            CombatListener::class.java, GameEffectListener::class.java,
-//            DataListener::class.java, EnderChestListener::class.java,
-//            ChatListener::class.java, PlayerListener::class.java,
-//            ProtectListener::class.java, PantsBundleShopButton::class.java,
-//            SwordBundleShopButton::class.java, BowBundleShopButton::class.java,
-//            CombatSpadeShopButton::class.java
-//        )
-//        for (aClass in classes) {
-//            try {
-//                val o = aClass.getDeclaredConstructor().newInstance()
-//                Bukkit.getPluginManager().registerEvents(o as Listener, ThePit.getInstance())
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
-
-        var classes = ClassUtil.getClassesInPackage(this, "cn.charlotte.pit.enchantment.type.alternative")
-        classes.stream()
-            .filter { cls: Class<*>? -> Listener::class.java.isAssignableFrom(cls) }
-            .map { clazz: Class<*> ->
-                try {
-                    return@map clazz.newInstance() as Listener
-                } catch (ignored: java.lang.Exception) {
-                    return@map null
-                }
-            }
-            .filter { obj: Listener? -> Objects.nonNull(obj) }
-            .forEach { listener: Listener? -> Bukkit.getPluginManager().registerEvents(listener, ThePit.getInstance()) }
-
-        classes = ClassUtil.getClassesInPackage(this, "cn.charlotte.pit.enchantment.type.addon")
-        classes.stream()
-            .filter { cls: Class<*>? -> Listener::class.java.isAssignableFrom(cls) }
-            .map { clazz: Class<*> ->
-                try {
-                    return@map clazz.newInstance() as Listener
-                } catch (ignored: java.lang.Exception) {
-                    return@map null
-                }
-            }
-            .filter { obj: Listener? -> Objects.nonNull(obj) }
-            .forEach { listener: Listener? -> Bukkit.getPluginManager().registerEvents(listener, ThePit.getInstance()) }
-
         ProtocolLibrary.getProtocolManager().addPacketListener(PacketListener())
 
         if (Bukkit.getPluginManager().getPlugin("MythicMobs") != null) {

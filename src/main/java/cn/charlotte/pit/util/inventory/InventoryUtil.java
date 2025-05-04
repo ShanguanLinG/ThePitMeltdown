@@ -231,7 +231,7 @@ public class InventoryUtil {
         return builder.toString();
     }
 
-    public static String playerInventoryToString(org.bukkit.inventory.PlayerInventory inv) {
+    public static String playerInventoryToString(PlayerInventory inv) {
         StringBuilder builder = new StringBuilder();
         ItemStack[] armor = inv.getArmorContents();
 

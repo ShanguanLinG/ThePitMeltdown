@@ -18,7 +18,7 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import java.util.concurrent.atomic.AtomicBoolean
 
-@AutoRegister
+
 class KungFuKnowledgePerk : AbstractPerk(), Listener, IAttackEntity {
 
     override fun getInternalPerkName(): String {

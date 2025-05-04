@@ -28,7 +28,7 @@ import java.util.List;
  * @Author Misoryan
  * @Date 2022/11/22 21:35
  */
-@AutoRegister
+
 public class AuraOfProtectionKillStreak extends AbstractPerk implements Listener {
 
     @Override

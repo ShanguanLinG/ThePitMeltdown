@@ -33,7 +33,7 @@ import java.util.*
  * @ Date 10/6/2021
  * @ Time 1:32 PM
  */
-@AutoRegister
+
 class UberStreak : AbstractPerk(), Listener, MegaStreak {
 
     override fun getInternalPerkName(): String {

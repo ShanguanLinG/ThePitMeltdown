@@ -20,7 +20,7 @@ import java.util.List;
  * @Author: Misoryan
  * @Created_In: 2021/2/21 13:46
  */
-@AutoRegister
+
 public class ExpliciousKillStreak extends AbstractPerk implements Listener {
     @Override
     public String getInternalPerkName() {

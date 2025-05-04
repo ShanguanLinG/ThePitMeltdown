@@ -27,7 +27,7 @@ import java.util.List;
  * @Author: Misoryan
  * @Created_In: 2021/2/26 17:57
  */
-@AutoRegister
+
 public class GoldNanoFactoryKillStreak extends AbstractPerk implements Listener {
     @Override
     public String getInternalPerkName() {

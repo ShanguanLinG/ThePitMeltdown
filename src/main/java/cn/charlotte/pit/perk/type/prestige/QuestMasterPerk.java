@@ -16,7 +16,7 @@ import org.bukkit.event.Listener;
 import java.util.ArrayList;
 import java.util.List;
 
-@AutoRegister
+
 public class QuestMasterPerk extends AbstractPerk implements Listener {
     @Override
     public String getInternalPerkName() {

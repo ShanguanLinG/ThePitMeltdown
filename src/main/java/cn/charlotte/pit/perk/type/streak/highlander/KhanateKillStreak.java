@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @Author: Misoryan
  * @Created_In: 2021/2/26 17:47
  */
-@AutoRegister
+
 public class KhanateKillStreak extends AbstractPerk implements Listener, IAttackEntity {
 
     @Override

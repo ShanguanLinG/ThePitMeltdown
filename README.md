@@ -13,6 +13,8 @@ ThePitMeltdown-API:
 
 如果你要将 ThePitMeltdown 作为依赖,那么你必须进行 [自行构建](#构建此插件)。
 
+如果你想要获得持续性的内容与性能更新，你可以通过联系 3379591176 购买 ThePitUltimate。
+
 ## 构建此插件
 
 你需要最低 JDK 11 和一个可以正常访问各种 git/maven 库的网络。

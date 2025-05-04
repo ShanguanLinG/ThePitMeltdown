@@ -31,8 +31,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @Creator Misoryan
  * @Date 2021/4/27 17:11
  */
-@AutoRegister
-public class BeastModeMegaStreak extends AbstractPerk implements Listener, ITickTask, IPlayerKilledEntity, IAttackEntity, IPlayerShootEntity, IPlayerBeKilledByEntity, MegaStreak {
+
+public class BeastModeMegaStreak extends AbstractPerk implements Listener, ITickTask, IPlayerKilledEntity, IAttackEntity, IPlayerShootEntity, IPlayerBeKilledByEntity {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onStreak(PitStreakKillChangeEvent event) {
@@ -192,8 +192,4 @@ public class BeastModeMegaStreak extends AbstractPerk implements Listener, ITick
         }
     }
 
-    @Override
-    public int getStreakNeed() {
-        return 50;
-    }
 }

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@AutoRegister
+
 public class AssuredStrikeKillStreak extends AbstractPerk implements Listener, IAttackEntity, IPlayerShootEntity {
 
     @Override

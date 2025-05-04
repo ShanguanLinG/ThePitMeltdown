@@ -71,7 +71,6 @@ public class SuperoxideEnchant extends AbstractEnchantment implements IPlayerDam
 
     @Override
     public void handlePlayerDamaged(int enchantLevel, Player myself, Entity attacker, double damage, AtomicDouble finalDamage, AtomicDouble boostDamage, AtomicBoolean cancel) {
-        myself.sendMessage("1123123");
         double time = 0;
         switch (enchantLevel) {
             case 1:

@@ -22,7 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-@AutoRegister
+
 public class WitherCraftKillStreak extends AbstractPerk implements Listener {
 
     @Override

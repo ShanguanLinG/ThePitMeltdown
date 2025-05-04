@@ -40,22 +40,27 @@ import java.util.concurrent.TimeUnit;
 @Deprecated
 public class DataListener implements Listener {
     private final ScheduledExecutorService executor;
+
     private final Map<UUID, BukkitRunnable> loadingMap = new ConcurrentHashMap<>();
 
     public DataListener() {
         this.executor = Executors.newSingleThreadScheduledExecutor();
-        var jedisPool = ThePit.getInstance().getJedis();
+        JedisPool jedisPool = ThePit.getInstance().getJedis();
         if (jedisPool != null) {
             executor.scheduleAtFixedRate(() -> {
-                var databaseName = ThePit.getInstance().getPitConfig().getDatabaseName();
-                
-                try (var jedis = jedisPool.getResource()) {
-                    Bukkit.getOnlinePlayers().stream()
-                        .filter(player -> !loadingMap.containsKey(player.getUniqueId()))
-                        .forEach(player -> jedis.expire(
-                            "THEPIT_" + databaseName + "_" + player.getUniqueId(),
-                            15
-                        ));
+                String databaseName = ThePit.getInstance().getPitConfig().getDatabaseName();
+
+                try(Jedis jedis = jedisPool.getResource()) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        if (loadingMap.containsKey(player.getUniqueId())) {
+                            continue;
+                        }
+
+                        jedis.expire(
+                                "THEPIT_" + databaseName + "_" + player.getUniqueId().toString(),
+                                15
+                        );
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -63,12 +68,14 @@ public class DataListener implements Listener {
         }
     }
 
+
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent event) {
-        var player = event.getPlayer();
+        final Player player = event.getPlayer();
         PlayerUtil.clearPlayer(player, true, true);
 
-        var runnable = new BukkitRunnable() {
+        BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
                 if (!player.isOnline()) {
@@ -80,12 +87,17 @@ public class DataListener implements Listener {
                     cancel();
                     load(player);
                 }
+
+                //continue waiting
             }
         };
 
         runnable.runTaskTimerAsynchronously(ThePit.getInstance(), 1L, 1L);
+
         loadingMap.put(player.getUniqueId(), runnable);
+
         event.setJoinMessage(null);
+
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -166,51 +178,59 @@ public class DataListener implements Listener {
     }
 
     public boolean canLoad(Player player) {
-        var databaseName = ThePit.getInstance().getPitConfig().getDatabaseName();
-        var jedisPool = ThePit.getInstance().getJedis();
+        String databaseName = ThePit.getInstance().getPitConfig().getDatabaseName();
+        JedisPool jedisPool = ThePit.getInstance().getJedis();
         if (jedisPool != null) {
-            try (var jedis = jedisPool.getResource()) {
+            try (Jedis jedis = jedisPool.getResource()) {
                 return "OK".equals(jedis.set(
-                    "THEPIT_" + databaseName + "_" + player.getUniqueId(),
-                    "locked", "NX", "EX", 30L
+                        "THEPIT_" + databaseName + "_" + player.getUniqueId().toString(),
+                        "locked", "NX", "EX", 30L
                 ));
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
             }
         }
+
         return true;
     }
 
     public void load(Player player) {
         if (Bukkit.getPlayer(player.getUniqueId()) == player && player.isOnline()) {
-            var profile = new PlayerProfile(player.getUniqueId(), player.getName());
-            var load = profile.load();
+            PlayerProfile profile = new PlayerProfile(player.getUniqueId(), player.getName());
+
+            PlayerProfile load = profile.load();
 
             load.setPlayerName(player.getName());
             load.setLowerName(player.getName().toLowerCase());
 
+            if (!player.isOnline()) {
+                return;
+            }
+
+            PlayerProfile.getCacheProfile().put(player.getUniqueId(), load);
+
+            if (load.getRegisterTime() <= 1) {
+                load.setRegisterTime(System.currentTimeMillis());
+            }
+            load.setLastLoginTime(System.currentTimeMillis());
+
+            if (load.getProfileFormatVersion() == 0) {
+                PitProfileUpdater.updateVersion0(load);
+            }
+
+            Bukkit.getScheduler().runTask(ThePit.getInstance(), () -> {
+                new PitProfileLoadedEvent(PlayerProfile.getPlayerProfileByUuid(player.getUniqueId())).callEvent();
+            });
+
             if (player.isOnline()) {
-                PlayerProfile.getCacheProfile().put(player.getUniqueId(), load);
-
-                if (load.getRegisterTime() <= 1) {
-                    load.setRegisterTime(System.currentTimeMillis());
-                }
-                load.setLastLoginTime(System.currentTimeMillis());
-
-                if (load.getProfileFormatVersion() == 0) {
-                    PitProfileUpdater.updateVersion0(load);
-                }
-
-                Bukkit.getScheduler().runTask(ThePit.getInstance(), () ->
-                    new PitProfileLoadedEvent(PlayerProfile.getPlayerProfileByUuid(player.getUniqueId())).callEvent()
-                );
-
                 FixedRewardData.Companion.sendMail(load, player);
             }
         } else {
             PlayerProfile.getCacheProfile().remove(player.getUniqueId());
         }
+
         loadingMap.remove(player.getUniqueId());
     }
+
 }

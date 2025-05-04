@@ -19,7 +19,7 @@ import java.util.List;
  * @Author Misoryan
  * @Date 2022/11/22 20:03
  */
-@AutoRegister
+
 public class GlassPickaxeKillStreak extends AbstractPerk implements Listener {
 
     @Override

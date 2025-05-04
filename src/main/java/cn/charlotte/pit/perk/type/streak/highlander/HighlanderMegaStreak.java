@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @Author: Misoryan
  * @Created_In: 2021/2/20 22:28
  */
-@AutoRegister
+
 public class HighlanderMegaStreak extends AbstractPerk implements Listener, IAttackEntity, IPlayerDamaged, ITickTask, IPlayerKilledEntity, IPlayerBeKilledByEntity, MegaStreak {
     @Override
     public String getInternalPerkName() {

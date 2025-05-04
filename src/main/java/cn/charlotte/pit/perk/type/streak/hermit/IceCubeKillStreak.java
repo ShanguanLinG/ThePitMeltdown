@@ -24,7 +24,7 @@ import java.util.List;
  * @Author Misoryan
  * @Date 2022/11/23 18:24
  */
-@AutoRegister
+
 public class IceCubeKillStreak extends AbstractPerk implements Listener {
 
     @Override

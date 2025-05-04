@@ -43,7 +43,7 @@ import java.util.List;
  * @Created_In: 2021/2/8 23:38
  */
 
-@AutoRegister
+
 public class FishClubPerk extends AbstractPerk implements Listener {
     @Override
     public String getInternalPerkName() {

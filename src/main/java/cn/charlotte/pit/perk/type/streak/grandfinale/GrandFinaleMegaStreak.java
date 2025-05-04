@@ -28,7 +28,7 @@ import java.util.List;
  * @Author: Misoryan
  * @Created_In: 2021/2/20 23:05
  */
-@AutoRegister
+
 public class GrandFinaleMegaStreak extends AbstractPerk implements Listener, MegaStreak {
     @Override
     public String getInternalPerkName() {

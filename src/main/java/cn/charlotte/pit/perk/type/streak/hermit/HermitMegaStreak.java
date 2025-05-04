@@ -37,7 +37,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @Author Misoryan
  * @Date 2022/11/22 19:00
  */
-@AutoRegister
+
 public class HermitMegaStreak extends AbstractPerk implements Listener, IPlayerDamaged, ITickTask, IPlayerKilledEntity, IPlayerBeKilledByEntity, MegaStreak {
 
     @Override

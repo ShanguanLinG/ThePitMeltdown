@@ -311,7 +311,7 @@ public class PlayerUtil {
     }
 
     public static void deadPlayer(Player player) {
-        PlayerUtil.damage(player, PlayerUtil.DamageType.TRUE, player.getMaxHealth() * 100, false);
+        PlayerUtil.damage(player, DamageType.TRUE, player.getMaxHealth() * 100, false);
     }
 
     public static int getPlayerArmorDefense(Player player) {

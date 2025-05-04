@@ -24,7 +24,7 @@ import java.util.List;
  * @Author: Misoryan
  * @Created_In: 2021/2/21 13:50
  */
-@AutoRegister
+
 public class ArquebusierKillStreak extends AbstractPerk implements Listener {
     @Override
     public String getInternalPerkName() {

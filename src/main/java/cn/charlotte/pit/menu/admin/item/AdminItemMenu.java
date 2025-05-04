@@ -107,9 +107,7 @@ public class AdminItemMenu extends Menu {
                 buttonMap.put(40, new PitItemButton(new DimensionalCactus().toItemStack()));
                 buttonMap.put(41, new PitItemButton(new SacrosanctCactus().toItemStack()));
 
-                if (ThePit.getInstance().getPitConfig().isBetaVersion()) {
-                    buttonMap.put(43, new PitItemButton(new GlobalAttentionGem().toItemStack()));
-                }
+                buttonMap.put(43, new PitItemButton(new GlobalAttentionGem().toItemStack()));
             }
 
         } catch (Exception e) {

@@ -17,7 +17,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.List;
 
-@AutoRegister
+
 public class RAndRKillStreak extends AbstractPerk implements Listener {
     @Override
     public String getInternalPerkName() {

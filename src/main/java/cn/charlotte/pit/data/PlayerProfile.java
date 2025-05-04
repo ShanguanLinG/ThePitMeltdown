@@ -501,7 +501,6 @@ public class PlayerProfile {
             this.refreshQuest();
             //refresh quests - end
 
-
             this.loaded = true;
             return this;
         }

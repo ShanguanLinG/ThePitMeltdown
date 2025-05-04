@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @Author: Misoryan
  * @Created_In: 2021/2/21 13:58
  */
-@AutoRegister
+
 public class FightOrFlightKillStreak extends AbstractPerk implements Listener, IAttackEntity, IPlayerShootEntity {
 
     private static final HashMap<UUID, Cooldown> strength = new HashMap<>();

@@ -34,7 +34,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @Author: EmptyIrony
  * @Date: 2021/1/14 23:37
  */
-@AutoRegister
+
 public class OverDriveMegaStreak extends AbstractPerk implements Listener, IPlayerKilledEntity, ITickTask, IPlayerDamaged, IPlayerBeKilledByEntity, MegaStreak {
     @Override
     public String getInternalPerkName() {

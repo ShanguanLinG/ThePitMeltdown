@@ -65,6 +65,7 @@ public final class CommandData {
         return (sender.hasPermission(permissionNode));
     }
 
+
     public String getUsageString() {
         return (getUsageString(getName()));
     }

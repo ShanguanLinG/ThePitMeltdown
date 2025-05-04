@@ -54,8 +54,8 @@ public class DependencyManager {
     private final JavaPlugin plugin;
     private final PluginClassLoader pluginClassLoader;
     private final MessageDigest digest;
-    private final Map<cn.charlotte.pit.util.dependencies.Dependency, Path> loaded = new HashMap<>();
-    private final Map<ImmutableSet<cn.charlotte.pit.util.dependencies.Dependency>, IsolatedClassLoader> loaders = new HashMap<>();
+    private final Map<Dependency, Path> loaded = new HashMap<>();
+    private final Map<ImmutableSet<Dependency>, IsolatedClassLoader> loaders = new HashMap<>();
 
     public DependencyManager(JavaPlugin plugin, PluginClassLoader pluginClassLoader) {
         this.plugin = plugin;
@@ -84,14 +84,14 @@ public class DependencyManager {
      *
      * @param dependencies The dependencies to load
      */
-    public void loadDependencies(cn.charlotte.pit.util.dependencies.Dependency... dependencies) {
+    public void loadDependencies(Dependency... dependencies) {
         File saveDirectory = getSaveDirectory();
 
         // create a list of file sources
         List<Source> sources = new ArrayList<>();
 
         // obtain a file for each of the dependencies
-        for (cn.charlotte.pit.util.dependencies.Dependency dependency : dependencies) {
+        for (Dependency dependency : dependencies) {
             if (this.loaded.containsKey(dependency)) {
                 continue;
             }
@@ -131,7 +131,7 @@ public class DependencyManager {
      * @return The downloaded dependency's path
      * @throws Exception If something goes wrong
      */
-    private Path downloadDependency(Path saveDirectory, cn.charlotte.pit.util.dependencies.Dependency dependency) throws Exception {
+    private Path downloadDependency(Path saveDirectory, Dependency dependency) throws Exception {
         String fileName = dependency.getName().toLowerCase() + "-" + dependency.getVersion() + ".jar";
         Path file = saveDirectory.resolve(fileName);
 

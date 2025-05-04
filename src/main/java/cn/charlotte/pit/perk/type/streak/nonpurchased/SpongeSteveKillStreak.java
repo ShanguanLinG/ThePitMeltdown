@@ -21,7 +21,7 @@ import java.util.List;
  * @Author: Misoryan
  * @Created_In: 2021/2/21 14:28
  */
-@AutoRegister
+
 public class SpongeSteveKillStreak extends AbstractPerk implements Listener {
     @Override
     public String getInternalPerkName() {

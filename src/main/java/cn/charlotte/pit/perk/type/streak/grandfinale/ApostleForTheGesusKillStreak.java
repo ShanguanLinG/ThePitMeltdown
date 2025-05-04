@@ -40,7 +40,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @Author: Misoryan
  * @Created_In: 2021/3/25 16:21
  */
-@AutoRegister
+
 public class ApostleForTheGesusKillStreak extends AbstractPerk implements Listener, IAttackEntity, IPlayerShootEntity {
 
     public static final HashMap<UUID, Cooldown> strength = new HashMap<>();

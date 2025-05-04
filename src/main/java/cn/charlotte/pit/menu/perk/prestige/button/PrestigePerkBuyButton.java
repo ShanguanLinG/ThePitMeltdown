@@ -1,3 +1,4 @@
+
 package cn.charlotte.pit.menu.perk.prestige.button;
 
 import cn.charlotte.pit.data.PlayerProfile;
@@ -5,7 +6,6 @@ import cn.charlotte.pit.data.sub.PerkData;
 import cn.charlotte.pit.event.PitPlayerUnlockPerkEvent;
 import cn.charlotte.pit.event.PitPlayerUpgradePerkEvent;
 import cn.charlotte.pit.menu.perk.UnKnowButton;
-import cn.charlotte.pit.menu.perk.prestige.PrestigeUpgradePerkBuyMenu;
 import cn.charlotte.pit.perk.AbstractPerk;
 import cn.charlotte.pit.util.chat.CC;
 import cn.charlotte.pit.util.chat.RomanUtil;
@@ -18,10 +18,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
- * @Author: Misoryan, EmptyIrony
+ * @Author: Misoryan
  * @Created_In: 2021/1/4 18:45
  */
 public class PrestigePerkBuyButton extends Button {
@@ -42,18 +41,14 @@ public class PrestigePerkBuyButton extends Button {
 
         List<String> lore = new ArrayList<>();
 
+        PerkData data = profile.getUnlockedPerkMap().get(perk.getInternalPerkName());
 
-        Optional<PerkData> first = profile.getUnlockedPerk()
-                .stream()
-                .filter(perkData -> perkData.getPerkInternalName().equals(perk.getInternalPerkName()))
-                .findFirst();
-
-        if (first.isPresent()) {
-            if (first.get().getLevel() < 0) {
-                first.get().setLevel(1);
+        if (data != null) {
+            if (data.getLevel() < 0) {
+                data.setLevel(1);
             }
             if (perk.getMaxLevel() > 1) {
-                lore.add("&7当前等级: &b" + RomanUtil.convert(first.get().getLevel()));
+                lore.add("&7当前等级: &b" + RomanUtil.convert(data.getLevel()));
             }
         }
         if (perk.requireLevel() != 0) {
@@ -71,15 +66,15 @@ public class PrestigePerkBuyButton extends Button {
         }
         lore.add(" ");
         String color;
-        if (first.isPresent()) {
-            if (first.get().getLevel() >= perk.getMaxLevel()) {
+        if (data != null) {
+            if (data.getLevel() >= perk.getMaxLevel()) {
                 lore.add("&a此精通天赋已被提升至最大等级!");
                 color = "&a";
             } else {
-                lore.add("&7价格: &e" + perk.requireRenown(first.get().getLevel() + 1) + " 声望");
+                lore.add("&7价格: &e" + perk.requireRenown(data.getLevel() + 1) + " 声望");
                 lore.add("&7你的声望: &e" + profile.getRenown() + " 声望");
                 lore.add(" ");
-                if (perk.requireRenown(first.get().getLevel() + 1) > profile.getRenown()) {
+                if (perk.requireRenown(data.getLevel() + 1) > profile.getRenown()) {
                     lore.add("&c你没有足够的声望!");
                     color = "&c";
                 } else {
@@ -110,24 +105,21 @@ public class PrestigePerkBuyButton extends Button {
     public void clicked(Player player, int slot, ClickType clickType, int hotbarButton, ItemStack currentItem) {
         PlayerProfile profile = PlayerProfile.getPlayerProfileByUuid(player.getUniqueId());
 
-        Optional<PerkData> first = profile.getUnlockedPerk()
-                .stream()
-                .filter(perkData -> perkData.getPerkInternalName().equals(perk.getInternalPerkName()))
-                .findFirst();
+        PerkData data = profile.getUnlockedPerkMap().get(perk.getInternalPerkName());
         if (perk.requirePrestige() > profile.getPrestige()) {
             return;
         }
-        if (first.isPresent()) {
-            if ((perk.getMaxLevel() > first.get().getLevel())) {
-                int price = (int) perk.requireRenown(first.get().getLevel() + 1);
+        if (data != null) {
+            if ((perk.getMaxLevel() > data.getLevel())) {
+                int price = (int) perk.requireRenown(data.getLevel() + 1);
                 if (price > profile.getRenown()) {
                     player.sendMessage(CC.translate("&c你没有足够的声望!"));
                 } else {
                     profile.setRenown(profile.getRenown() - price);
-                    new PitPlayerUpgradePerkEvent(player, perk, first.get().getLevel() + 1);
-                    first.get().setLevel(first.get().getLevel() + 1);
+                    new PitPlayerUpgradePerkEvent(player, perk, data.getLevel() + 1);
+                    data.setLevel(data.getLevel() + 1);
                     perk.onUpgrade(player);
-                    player.sendMessage(CC.translate("&a&l天赋升级! &7你升级了精通天赋 &e" + perk.getDisplayName() + " &7至等级 &b" + RomanUtil.convert(first.get().getLevel()) + " &7."));
+                    player.sendMessage(CC.translate("&a&l天赋升级! &7你升级了精通天赋 &e" + perk.getDisplayName() + " &7至等级 &b" + RomanUtil.convert(data.getLevel()) + " &7."));
                 }
             }
         } else {
@@ -135,22 +127,19 @@ public class PrestigePerkBuyButton extends Button {
             if (price > profile.getRenown()) {
                 player.sendMessage(CC.translate("&c你没有足够的声望!"));
             } else {
-                new ConfirmMenu("购买天赋 " + perk.getDisplayName(), element -> {
-                    if (element) {
+                new ConfirmMenu("购买天赋 " + perk.getDisplayName(), confirm -> {
+                    if (confirm) {
                         profile.setRenown(profile.getRenown() - price);
                         PerkData perkData = new PerkData();
                         perkData.setPerkInternalName(perk.getInternalPerkName());
                         perkData.setLevel(1);
 
-                        profile.getUnlockedPerk()
-                                .add(perkData);
+                        profile.getUnlockedPerkMap().put(perkData.getPerkInternalName(), perkData);
                         perk.onUnlock(player);
                         new PitPlayerUnlockPerkEvent(player, perk).callEvent();
                         player.sendMessage(CC.translate("&a&l天赋解锁! &7你解锁了精通天赋 &e" + perk.getDisplayName() + " &7."));
-                    } else {
-                        new PrestigeUpgradePerkBuyMenu().openMenu(player);
                     }
-                }, true, 5, (Button) null).openMenu(player);
+                }, true, 5).openMenu(player);
             }
         }
     }

@@ -6,6 +6,7 @@ import cn.charlotte.pit.data.sub.PerkData;
 import cn.charlotte.pit.data.sub.PlayerBanData;
 import cn.charlotte.pit.data.sub.PlayerInv;
 import cn.charlotte.pit.enchantment.AbstractEnchantment;
+import cn.charlotte.pit.enchantment.menu.MythicWellMenu;
 import cn.charlotte.pit.enchantment.rarity.EnchantmentRarity;
 import cn.charlotte.pit.event.PitKillEvent;
 import cn.charlotte.pit.event.PitPlayerEnchantEvent;

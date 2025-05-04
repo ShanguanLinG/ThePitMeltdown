@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
 public class StringUtil {
     private static final long million = 100000000;
     private static final long tenkilo = 10000;
-    public static DecimalFormat decimalFormat = new java.text.DecimalFormat("0.00");
+    public static DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
     public static String getFormatLong(long input) {
         boolean negative = input < 0;

@@ -100,13 +100,13 @@ abstract class CraftHologram implements Hologram {
         ClassBuilder.setupArmorStand(armorStand);
 
         if (rebuild) {
-            org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("id")).set(armorStand, this.hologramIDs[0]);
+            AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("id")).set(armorStand, this.hologramIDs[0]);
         } else {
-            this.hologramIDs = new int[]{org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("id")).getInt(armorStand)};
+            this.hologramIDs = new int[]{AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("id")).getInt(armorStand)};
         }
 
         this.spawnPacketArmorStand = ClassBuilder.buildArmorStandSpawnPacket(armorStand);
-        this.dataWatcherArmorStand = org.inventivetalent.reflection.util.AccessUtil.setAccessible(
+        this.dataWatcherArmorStand = AccessUtil.setAccessible(
                 PacketPlayOutSpawnEntityLivingFieldResolver.resolveByFirstType(NMSClass.DataWatcher)
         ).get(this.spawnPacketArmorStand);
 
@@ -130,7 +130,7 @@ abstract class CraftHologram implements Hologram {
         if (this.isTouchable()) {
             int size = this.getText() == null ? 1 : (this.getText().length() / 2 / 3);
             Object touchSlime = ClassBuilder.buildEntitySlime(world, this.getLocation().add(0, HologramOffsets.TOUCH_SLIME_SKULL, 0), size);
-            this.dataWatcherTouchSlime = org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("datawatcher")).get(touchSlime);
+            this.dataWatcherTouchSlime = AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("datawatcher")).get(touchSlime);
 
             Object touchVehicle = null;
 
@@ -140,29 +140,29 @@ abstract class CraftHologram implements Hologram {
                         this.getLocation().add(0, HologramOffsets.ARMOR_STAND_PACKET + HologramOffsets.TOUCH_SLIME_ARMOR_STAND, 0),
                         null
                 );
-                this.dataWatcherTouchVehicle = org.inventivetalent.reflection.util.AccessUtil.setAccessible(
+                this.dataWatcherTouchVehicle = AccessUtil.setAccessible(
                         NMSClass.Entity.getDeclaredField("datawatcher")
                 ).get(touchVehicle);
 
                 ClassBuilder.setupArmorStand(touchVehicle);
             } else {
                 touchVehicle = ClassBuilder.buildEntityWitherSkull(world, this.getLocation().add(0, HologramOffsets.TOUCH_SLIME_SKULL, 0));
-                this.dataWatcherTouchVehicle = org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("datawatcher")).get(touchVehicle);
+                this.dataWatcherTouchVehicle = AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("datawatcher")).get(touchVehicle);
                 //				ClassBuilder.setDataWatcherValue(this.dataWatcherTouchVehicle, 0, (byte) 32);
-                org.inventivetalent.reflection.minecraft.DataWatcher.setValue(this.dataWatcherTouchVehicle, 0, DataWatcher.V1_9.ValueType.ENTITY_FLAG, (byte) 32);
+                DataWatcher.setValue(this.dataWatcherTouchVehicle, 0, DataWatcher.V1_9.ValueType.ENTITY_FLAG, (byte) 32);
             }
 
             if (rebuild) {
-                org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("id")).set(touchSlime, this.touchIDs[0]);
-                org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("id")).set(touchVehicle, this.touchIDs[1]);
+                AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("id")).set(touchSlime, this.touchIDs[0]);
+                AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("id")).set(touchVehicle, this.touchIDs[1]);
                 // Reset the entity count
-                Field entityCountField = org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("entityCount"));
+                Field entityCountField = AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("entityCount"));
                 entityCountField.set(null, (int) entityCountField.get(null) - 2);
             } else {
                 this.touchIDs = new int[]{
-                        org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("id")).getInt(touchSlime),
+                        AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("id")).getInt(touchSlime),
                         //
-                        org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("id")).getInt(touchVehicle)
+                        AccessUtil.setAccessible(NMSClass.Entity.getDeclaredField("id")).getInt(touchVehicle)
                 };
             }
 
@@ -173,14 +173,14 @@ abstract class CraftHologram implements Hologram {
                 this.spawnPacketTouchVehicle = ClassBuilder.buildWitherSkullSpawnPacket(touchVehicle);
             }
 
-            if (org.inventivetalent.reflection.minecraft.Minecraft.VERSION.olderThan(org.inventivetalent.reflection.minecraft.Minecraft.Version.v1_9_R1)) {
+            if (Minecraft.VERSION.olderThan(Minecraft.Version.v1_9_R1)) {
                 this.attachPacketTouch = NMSClass.PacketPlayOutAttachEntity.getConstructor(int.class, NMSClass.Entity, NMSClass.Entity).newInstance(0, touchSlime, touchVehicle);
-                org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("b")).set(this.attachPacketTouch, this.touchIDs[0]);
-                org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("c")).set(this.attachPacketTouch, this.touchIDs[1]);
+                AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("b")).set(this.attachPacketTouch, this.touchIDs[0]);
+                AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("c")).set(this.attachPacketTouch, this.touchIDs[1]);
             } else {
                 this.attachPacketTouch = NMSClass.PacketPlayOutAttachEntity.newInstance();
-                org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("a")).set(this.attachPacketTouch, this.touchIDs[0]);
-                org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("b")).set(this.attachPacketTouch, this.touchIDs[1]);
+                AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("a")).set(this.attachPacketTouch, this.touchIDs[0]);
+                AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("b")).set(this.attachPacketTouch, this.touchIDs[1]);
             }
 
             this.teleportPacketTouchSlime = ClassBuilder.buildTeleportPacket(this.touchIDs[0], this.getLocation().add(0, HologramOffsets.TOUCH_SLIME_SKULL, 0), true, false);
@@ -196,26 +196,26 @@ abstract class CraftHologram implements Hologram {
 
         }
 
-        if (org.inventivetalent.reflection.minecraft.Minecraft.VERSION.olderThan(Minecraft.Version.v1_9_R1)) {
+        if (Minecraft.VERSION.olderThan(Minecraft.Version.v1_9_R1)) {
             this.ridingAttachPacket = NMSClass.PacketPlayOutAttachEntity.newInstance();
             this.ridingEjectPacket = NMSClass.PacketPlayOutAttachEntity.newInstance();
 
-            org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("a")).set(this.ridingAttachPacket, 0);
-            org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("a")).set(this.ridingEjectPacket, 0);
+            AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("a")).set(this.ridingAttachPacket, 0);
+            AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("a")).set(this.ridingEjectPacket, 0);
 
-            org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("b")).set(this.ridingAttachPacket, this.hologramIDs[0]);
-            org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("b")).set(this.ridingEjectPacket, this.hologramIDs[0]);
+            AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("b")).set(this.ridingAttachPacket, this.hologramIDs[0]);
+            AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("b")).set(this.ridingEjectPacket, this.hologramIDs[0]);
 
-            org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("c")).set(this.ridingAttachPacket, this.getAttachedTo() != null ? this.getAttachedTo().getEntityId() : -1);
-            org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("c")).set(this.ridingEjectPacket, -1);
+            AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("c")).set(this.ridingAttachPacket, this.getAttachedTo() != null ? this.getAttachedTo().getEntityId() : -1);
+            AccessUtil.setAccessible(NMSClass.PacketPlayOutAttachEntity.getDeclaredField("c")).set(this.ridingEjectPacket, -1);
         } else {
             this.ridingAttachPacket = NMSClass.PacketPlayOutMount.newInstance();
             this.ridingEjectPacket = NMSClass.PacketPlayOutMount.newInstance();
 
-            org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.PacketPlayOutMount.getDeclaredField("a")).set(this.ridingAttachPacket, ((DefaultHologram) this).isAttached() && this.getAttachedTo() != null ? this.getAttachedTo().getEntityId() : -1);
-            org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.PacketPlayOutMount.getDeclaredField("a")).set(this.ridingEjectPacket, ((DefaultHologram) this).isAttached() && this.getAttachedTo() != null ? this.getAttachedTo().getEntityId() : -1);
+            AccessUtil.setAccessible(NMSClass.PacketPlayOutMount.getDeclaredField("a")).set(this.ridingAttachPacket, ((DefaultHologram) this).isAttached() && this.getAttachedTo() != null ? this.getAttachedTo().getEntityId() : -1);
+            AccessUtil.setAccessible(NMSClass.PacketPlayOutMount.getDeclaredField("a")).set(this.ridingEjectPacket, ((DefaultHologram) this).isAttached() && this.getAttachedTo() != null ? this.getAttachedTo().getEntityId() : -1);
 
-            org.inventivetalent.reflection.util.AccessUtil.setAccessible(NMSClass.PacketPlayOutMount.getDeclaredField("b")).set(this.ridingAttachPacket, new int[]{this.hologramIDs[0]});
+            AccessUtil.setAccessible(NMSClass.PacketPlayOutMount.getDeclaredField("b")).set(this.ridingAttachPacket, new int[]{this.hologramIDs[0]});
             AccessUtil.setAccessible(NMSClass.PacketPlayOutMount.getDeclaredField("b")).set(this.ridingEjectPacket, new int[0]);
         }
 

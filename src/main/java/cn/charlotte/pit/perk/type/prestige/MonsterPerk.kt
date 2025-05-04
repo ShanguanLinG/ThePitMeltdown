@@ -14,7 +14,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 
-@AutoRegister
+
 class MonsterPerk : AbstractPerk(), Listener {
     override fun getInternalPerkName(): String {
         return "monster"

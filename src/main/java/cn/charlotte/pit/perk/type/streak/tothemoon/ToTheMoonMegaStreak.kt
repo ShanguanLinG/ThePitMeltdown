@@ -31,7 +31,7 @@ import kotlin.math.floor
 import kotlin.math.min
 import kotlin.random.Random
 
-@AutoRegister
+
 class ToTheMoonMegaStreak: AbstractPerk() , IPlayerKilledEntity, IPlayerDamaged, IPlayerBeKilledByEntity, MegaStreak, Listener {
     companion object {
         @JvmStatic

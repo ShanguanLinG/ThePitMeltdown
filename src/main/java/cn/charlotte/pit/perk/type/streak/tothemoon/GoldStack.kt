@@ -13,7 +13,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import kotlin.math.min
 
-@AutoRegister
+
 class GoldStack : AbstractPerk(), Listener {
     override fun getInternalPerkName(): String {
         return "gold_stack"
