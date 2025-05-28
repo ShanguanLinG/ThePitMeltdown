@@ -16,7 +16,7 @@ public class MythicHologram extends AbstractHologram {
 
     @Override
     public List<String> getText(Player player) {
-        return Arrays.asList("&d&l神话井", "&e&o强势的各种神话物品再度诞生");
+        return Arrays.asList("&d&l神话之井", "&f&o强势的各种神话物品再度诞生");
     }
 
     @Override
