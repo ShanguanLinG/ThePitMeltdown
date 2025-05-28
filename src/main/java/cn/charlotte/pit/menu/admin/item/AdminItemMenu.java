@@ -64,9 +64,7 @@ public class AdminItemMenu extends Menu {
             buttonMap.put(12, new CombatSpadeShopButton());
             buttonMap.put(13, new MythicItemButton(4));
 
-            if (ThePit.getInstance().getPitConfig().getCode().equals("4847a648-bd9f-463e-ab18-3006b0fabd3b")) {
-                buttonMap.put(14, new MythicItemButton(9));
-            }
+            buttonMap.put(14, new MythicItemButton(9));
 
             if (admin) {
                 buttonMap.put(9, new ShopItemButton(Material.TNT, "tnt", 64));
@@ -79,14 +77,12 @@ public class AdminItemMenu extends Menu {
                 buttonMap.put(22, new PitItemButton(PitCactus.toItemStack()));
                 buttonMap.put(23, new PitItemButton(MythicRepairKit.toItemStack0()));
                 buttonMap.put(24, new PitItemButton(new JewelSword().toItemStack()));
-                buttonMap.put(25, new PitItemButton(new ArmageddonBoots().toItemStack()));
-                buttonMap.put(27, new PitItemButton(new TotallyLegitGem().toItemStack()));
+                buttonMap.put(27, new PitItemButton(new GoldenHelmet().toItemStack()));
                 buttonMap.put(28, new MythicItemButton(5));
-                buttonMap.put(29, new MythicItemButton(6));
-                buttonMap.put(30, new PitItemButton(new GoldenHelmet().toItemStack()));
                 final MythicLeggingsItem item = new MythicLeggingsItem();
                 item.setColor(MythicColor.RAGE);
-                buttonMap.put(31, new PitItemButton(item.toItemStack()));
+                buttonMap.put(29, new PitItemButton(item.toItemStack()));
+                buttonMap.put(30, new MythicItemButton(6));
 
                 buttonMap.put(33, new PitItemButton(new UberDrop().toItemStack()));
 
@@ -108,6 +104,8 @@ public class AdminItemMenu extends Menu {
                 buttonMap.put(41, new PitItemButton(new SacrosanctCactus().toItemStack()));
 
                 buttonMap.put(43, new PitItemButton(new GlobalAttentionGem().toItemStack()));
+                buttonMap.put(44, new PitItemButton(new TotallyLegitGem().toItemStack()));
+
             }
 
         } catch (Exception e) {

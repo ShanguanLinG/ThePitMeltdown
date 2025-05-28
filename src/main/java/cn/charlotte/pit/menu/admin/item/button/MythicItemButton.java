@@ -49,13 +49,13 @@ public class MythicItemButton extends Button {
             ItemStack itemStack = new AngelChestplate().toItemStack();
             IMythicItem mythicItem = new AngelChestplate();
             mythicItem.loadFromItemStack(itemStack);
-            mythicItem.setLive(12);
+            mythicItem.setLive(100);
             return mythicItem.toItemStack();
         } else if (i == 6) {
             ItemStack itemStack = new ArmageddonBoots().toItemStack();
             IMythicItem mythicItem = new ArmageddonBoots();
             mythicItem.loadFromItemStack(itemStack);
-            mythicItem.setLive(3);
+            mythicItem.setLive(66);
             return mythicItem.toItemStack();
         } else if (i == 7) {
             return new SpireSword(Material.DIAMOND_SWORD).toItemStack();
